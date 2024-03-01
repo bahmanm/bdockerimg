@@ -17,10 +17,6 @@ commands:
       Setup the required packages for the build process.
     steps:
       - run:
-          name: Update package index
-          command: >-
-            sudo apt-get update
-      - run:
           name: Install Make 4.4
           command: >-
             pushd /tmp
