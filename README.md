@@ -1,2 +1,2 @@
-# docker-images
+# bdockerimg
 A collection of Docker images
