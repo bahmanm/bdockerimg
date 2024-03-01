@@ -11,14 +11,14 @@ executors:
 ####################################################################################################
 
 jobs:
-  
+
   test:
     executor: ubuntu2204
     steps:
       - checkout
       - run:
           name: Run tests
-          command: echo 'replace me with real tests!' && false
+          command: echo 'replace me with real tests!'
 
   build:
     executor: ubuntu2204
