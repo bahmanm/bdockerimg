@@ -4,26 +4,32 @@ SHELL := /usr/bin/env bash
 ####################################################################################################
 
 root.dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-sources.dir := $(root.dir)src/
-tests.dir := $(root.dir)tests/
 
 ####################################################################################################
 
 .PHONY : bmakelib/bmakelib.mk
-include bmakelib/bmakelib.mk
+include  bmakelib/bmakelib.mk
+
+####################################################################################################
+
+subprojects :=
+subprojects.makefiles := $(subprojects:%=$(root.dir)%/Makefile)
+
+.PHONY : $(subprojects.makefiles)
+include  $(subprojects.makefiles)
 
 ####################################################################################################
 
 .PHONY : test
 
-test :
+test : $(subprojects:%=%.test)
 	@echo Dummy test target
 
 ####################################################################################################
 
 .PHONY : build
 
-build :
+build : $(subprojects:%=%.build)
 	@echo Dummy build target
 
 
@@ -31,5 +37,5 @@ build :
 
 .PHONY : publish
 
-publish :
+publish : $(subprojects:%=%.publish)
 	@echo Dummy publish target
