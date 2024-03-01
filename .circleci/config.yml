@@ -11,11 +11,43 @@ executors:
 
 ####################################################################################################
 
+commands:
+  ubuntu_setup:
+    description: >-
+      Setup the required packages for the build process.
+    steps:
+      - run:
+          name: Update package index
+          command: >-
+            apt-get update
+      - run:
+          name: Install Make 4.4
+          command: >-
+            pushd /tmp
+            && wget -O - https://ftp.gnu.org/gnu/make/make-4.4.1.tar.gz | tar -zxf -
+            && pushd make-4.4.1
+            && ./configure --prefix=/usr/local
+            && make install
+            && popd
+            && popd
+      - run:
+          name: Install bmakelib
+          command: >-
+            pushd /tmp
+            && wget https://github.com/bahmanm/bmakelib/releases/download/v0.7.0/bmakelib_0.7.0-1_all.deb
+            && dpkg -i bmakelib_0.7.0-1_all.deb
+            && popd
+
+
+####################################################################################################
+
 jobs:
 
   test:
     executor: ubuntu2204
+    working_directory: ~/bdockerimg
     steps:
+      - ubuntu_setup
       - checkout
       - run:
           name: Run tests
@@ -24,7 +56,9 @@ jobs:
 
   build:
     executor: ubuntu2204
+    working_directory: ~/bdockerimg
     steps:
+      - ubuntu_setup
       - checkout
       - run:
           name: Build the images
@@ -33,7 +67,9 @@ jobs:
 
   publish:
     executor: ubuntu2204
+    working_directory: ~/bdockerimg
     steps:
+      - ubuntu_setup
       - checkout
       - run:
           name: Publish the images to Docker Hub
