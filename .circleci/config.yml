@@ -1,3 +1,4 @@
+---
 version: 2.1
 
 ####################################################################################################
@@ -18,24 +19,26 @@ jobs:
       - checkout
       - run:
           name: Run tests
-          command: echo 'replace me with real tests!'
+          command: >-
+            make test
 
   build:
     executor: ubuntu2204
     steps:
       - checkout
       - run:
-          name: Build an artifact
-          command: touch example.txt
-      - store_artifacts:
-          path: example.txt
+          name: Build the images
+          command: >-
+            make build
 
-  deploy:
+  publish:
     executor: ubuntu2204
     steps:
+      - checkout
       - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+          name: Publish the images to Docker Hub
+          command: >-
+            make publish
 
 ####################################################################################################
 
@@ -44,4 +47,4 @@ workflows:
     jobs:
       - test
       - build
-      - deploy
+      - publish
