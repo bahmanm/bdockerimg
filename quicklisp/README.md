@@ -21,12 +21,8 @@ For example, using the openSUSE Tumbleweed variant:
 docker run --rm bdockerimg/quicklisp:sbcl-2.4.2--opensuse-tumbleweed --eval '(format t "Hello, world")'
 
 This is SBCL 2.4.2-1.1-suse, an implementation of ANSI Common Lisp.
-More information about SBCL is available at <http://www.sbcl.org/>.
+...
 
-SBCL is free software, provided as is, with absolutely no warranty.
-It is mostly in the public domain; some portions are provided under
-BSD-style licenses.  See the CREDITS and COPYING files in the
-distribution for more information.
 Hello, world
 ```
 
@@ -48,13 +44,10 @@ The following command, uses the image to load and execute the file:
 
 ```
 docker run --rm --volume ~/tmp/lisp:/project bdockerimg/quicklisp:sbcl-2.1.11--ubuntu-2204 --load foo.lisp world
-This is SBCL 2.1.11.debian, an implementation of ANSI Common Lisp.
-More information about SBCL is available at <http://www.sbcl.org/>.
 
-SBCL is free software, provided as is, with absolutely no warranty.
-It is mostly in the public domain; some portions are provided under
-BSD-style licenses.  See the CREDITS and COPYING files in the
-distribution for more information.
+This is SBCL 2.1.11.debian, an implementation of ANSI Common Lisp.
+...
+
 Hello, world
 ```
 
