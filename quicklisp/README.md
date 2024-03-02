@@ -6,7 +6,7 @@ A vanilla QuickLisp image (currently) using SBCL.
 
 # Variants
 
-There are two main variants of the image for slightely different usecases:
+There are two main variants of the image for slightly different usecases:
 
 * openSUSE Tumbleweed
 * Ubuntu 22.04 (LTS)
