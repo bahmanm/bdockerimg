@@ -101,8 +101,10 @@ Here's a real world example of the image being used: [bjforth CircleCI configura
 # What is bmakelib?
 
 > The minimalist Make standard library you'd always wished for!
+> 
 > bmakelib is essentially a collection of useful targets, recipes and variables you can use to 
 > augment your Makefiles.
+> 
 > The aim is not to simplify writing Makefiles but rather help you write cleaner and easier to 
 > read and maintain Makefiles.
 
