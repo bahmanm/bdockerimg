@@ -34,7 +34,6 @@ endef
 
 .PHONY : quicklisp.test
 
-quicklisp.test : quicklisp.build
 quicklisp.test : $(quicklisp.image-variants:%=quicklisp.test.image-variant.%)
 
 ####################################################################################################
@@ -67,7 +66,6 @@ quicklisp.build.image-variant.% :
 
 .PHONY : quicklisp.publish
 
-quicklisp.publish : quicklisp.test
 quicklisp.publish : bmakelib.default-if-blank( quicklisp.tag,latest )
 quicklisp.publish : $(quicklisp.image-variants:%=quicklisp.publish.image-variant.%)
 
