@@ -40,17 +40,6 @@ commands:
 
 jobs:
 
-  test:
-    executor: ubuntu2204
-    working_directory: ~/bdockerimg
-    steps:
-      - ubuntu_setup
-      - checkout
-      - run:
-          name: Run tests
-          command: >-
-            make test
-
   build:
     executor: ubuntu2204
     working_directory: ~/bdockerimg
@@ -61,6 +50,17 @@ jobs:
           name: Build the images
           command: >-
             make build
+
+  test:
+    executor: ubuntu2204
+    working_directory: ~/bdockerimg
+    steps:
+      - ubuntu_setup
+      - checkout
+      - run:
+          name: Run tests
+          command: >-
+            make test
 
   publish:
     executor: ubuntu2204
@@ -77,7 +77,44 @@ jobs:
 ####################################################################################################
 
 workflows:
-  test_publish:
+  test:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore:
+                - main
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore:
+                - main
+
+  publish:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only:
+                - main
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - main
+      - publish:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - main
+
+  weekly:
     jobs:
       - build
       - test:
@@ -86,6 +123,10 @@ workflows:
       - publish:
           requires:
             - test
+    triggers:
+      - schedule:
+          cron: "0 18 * * 1"
           filters:
             branches:
-              only: /main/
+              only:
+                - main
