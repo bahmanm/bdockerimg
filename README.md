@@ -4,5 +4,5 @@ A collection of Docker images which are otherwise not easy to find.
 
 # Images
 
-⭐ [QuickLisp](quiclisp/README.md)
+⭐ [QuickLisp](quicklisp/README.md)
 
