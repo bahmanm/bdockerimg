@@ -1,0 +1,13 @@
+FROM opensuse/tumbleweed:latest
+
+RUN zypper --non-interactive refresh \
+    && zypper --non-interactive install sbcl wget
+
+RUN wget -O /tmp/quicklisp.lisp https://beta.quicklisp.org/quicklisp.lisp \
+    && sbcl --load /tmp/quicklisp.lisp --eval "(progn (quicklisp-quickstart:install) (exit))" \
+    && rm /tmp/quicklisp.lisp \
+    && echo '(load "~/quicklisp/setup.lisp")' > ~/.sbclrc
+
+VOLUME /project
+WORKDIR /project
+ENTRYPOINT ["/usr/bin/sbcl"]

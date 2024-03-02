@@ -1,0 +1,14 @@
+FROM ubuntu:22.04
+
+RUN apt-get update \
+    && apt-get install -y sbcl wget \
+    && rm -rf /var/lib/{apt,dpkg,cache,log}/
+
+RUN wget -O /tmp/quicklisp.lisp https://beta.quicklisp.org/quicklisp.lisp \
+    && sbcl --load /tmp/quicklisp.lisp --eval "(progn (quicklisp-quickstart:install) (exit))" \
+    && rm /tmp/quicklisp.lisp \
+    && echo '(load "~/quicklisp/setup.lisp")' > ~/.sbclrc
+
+VOLUME /project
+WORKDIR /project
+ENTRYPOINT ["/usr/bin/sbcl"]

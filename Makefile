@@ -13,7 +13,7 @@ include  bmakelib/bmakelib.mk
 
 ####################################################################################################
 
-subprojects := dummy
+subprojects := quicklisp
 subprojects.makefiles := $(subprojects:%=$(root.dir)%/Makefile)
 
 .PHONY : $(subprojects.makefiles)
@@ -24,19 +24,15 @@ include  $(subprojects.makefiles)
 .PHONY : test
 
 test : $(subprojects:%=%.test)
-	@echo Dummy test target
 
 ####################################################################################################
 
 .PHONY : build
 
 build : $(subprojects:%=%.build)
-	@echo Dummy build target
-
 
 ####################################################################################################
 
 .PHONY : publish
 
 publish : $(subprojects:%=%.publish)
-	@echo Dummy publish target
