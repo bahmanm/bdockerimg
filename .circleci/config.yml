@@ -70,7 +70,8 @@ jobs:
       - run:
           name: Publish the images to Docker Hub
           command: >-
-            make publish
+            echo ${DOCKERHUB_TOKEN} | docker loging --username ${DOCKERHUB_USER} --password-stdin
+            && make publish
 
 ####################################################################################################
 
