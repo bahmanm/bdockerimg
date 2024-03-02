@@ -18,7 +18,7 @@ There are two main variants of the image for slightely different usecases:
 For example, using the openSUSE Tumbleweed variant:
 
 ```
-docker run --rm bdockerimg/quicklisp:sbcl-2.4.2--opensuse-tumbleweed --eval '(format t "Hello, world")'
+＄ docker run --rm bdockerimg/quicklisp:sbcl-2.4.2--opensuse-tumbleweed --eval '(format t "Hello, world")'
 
 This is SBCL 2.4.2-1.1-suse, an implementation of ANSI Common Lisp.
 ...
@@ -43,7 +43,7 @@ Assuming you've saved the overly elborate below snippet at `~/lisp/foo.lisp`:
 The following command, uses the image to load and execute the file:
 
 ```
-docker run --rm --volume ~/tmp/lisp:/project bdockerimg/quicklisp:sbcl-2.1.11--ubuntu-2204 --load foo.lisp world
+＄ docker run --rm --volume ~/tmp/lisp:/project bdockerimg/quicklisp:sbcl-2.1.11--ubuntu-2204 --load foo.lisp world
 
 This is SBCL 2.1.11.debian, an implementation of ANSI Common Lisp.
 ...
@@ -53,7 +53,7 @@ Hello, world
 
 ### ✔ Scripting
 
-```text
+```
 #!/usr/bin/env -S docker run --rm --volume .:/project bdockerimg/quicklisp:sbcl-2.4.2--opensuse-tumbleweed --script
 
 (format t "Hello, world")
