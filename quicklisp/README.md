@@ -15,48 +15,62 @@ There are two main variants of the image for slightely different usecases:
 
 ### ✔ One-off commands
 
-For example, using the openSUSE Tumbleweed variant:
-
 ```
-＄ docker run --rm bdockerimg/quicklisp --eval '(format t "Hello, world")'
+＄ docker run --rm bdockerimg/quicklisp \
+  --eval '(ql:quickload :alexandria)' \
+  --eval '(format t "factorial(10) is ~A" (alexandria:factorial 10))'
 
 This is SBCL 2.1.11.debian, an implementation of ANSI Common Lisp.
 ...
+; Loading "alexandria"
+[package alexandria]..............................
+[package alexandria-2].
 
-Hello, world
+factorial(10) is 3628800
 ```
 
-### ✔ Lisp projects
+### ✔ Entire Lisp projects
 
-Assuming you've saved the overly elborate below snippet at `~/lisp/foo.lisp`:
+To run [euler-cl](https://github.com/bahmanm/euler-cl):
 
-```lisp
-(require :uiop)
+```text
+＄ git clone https://github.com/bahmanm/euler-cl.git && pushd euler-cl \
+  && docker run --rm --volume .:/project bdockerimg/quicklisp \
+  --eval "(ql:quickload :alexandria)" \
+  --eval "(ql:quickload :fiveam)" \
+  --eval "(ql:quickload :cl-ppcre)" \
+  --eval "(setf asdf:*central-registry* (list* '*default-pathname-defaults* (car (directory #p\".\")) asdf:*central-registry*))" \
+  --eval "(asdf:load-system :euler)" \
+  --eval "(euler:solutions)"
 
-(defun greet (name)
-  (format t "Hello, ~A" name))
-
-(let ((name (car (uiop:command-line-arguments))))
-  (greet name))
-```
-
-The following command, uses the image to load and execute the file:
-
-```
-＄ docker run --rm --volume ~/tmp/lisp:/project bdockerimg/quicklisp --load foo.lisp world
-
+Cloning into 'euler-cl'...
+...
 This is SBCL 2.1.11.debian, an implementation of ANSI Common Lisp.
 ...
 
-Hello, world
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                        PROJECT EULER ANSWERS                         ┃
+ ┣━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━┫
+ ┃ PROBLEM #  ┃              ANSWER              ┃      TIME (µs)       ┃
+ ┣━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━┫
+ ┃          1 │                          233,168 │                   61 ┃
+ ┠────────────┼──────────────────────────────────┼──────────────────────┨
+ ┃          2 │                        4,613,732 │                    2 ┃
+ ┠────────────┼──────────────────────────────────┼──────────────────────┨
+...
+ ┗━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┷━━━━━━━━━━━━━━━━━━━━━━┛
+
 ```
 
 ### ✔ Scripting
 
-```
+```lisp
 #!/usr/bin/env -S docker run --rm --volume .:/project bdockerimg/quicklisp --script
 
-(format t "Hello, world")
+(load "~/.sbclrc")
+(ql:quickload :str)
+(format t "foo x5 is ~A"
+        (str:repeat 5 "foo"))
 ```
 
 ### ✔ CI/CD pipeline
