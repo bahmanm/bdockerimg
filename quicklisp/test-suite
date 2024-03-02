@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# -*- mode: sh-mode; -*-
+
+set -o pipefail
+set -o nounset
+
+image="$1"
+
+function test.sbcl_is_installed {
+  local version="$(docker run --rm ${image} --version)"
+  perl -pE'/SBCL\s+.+/' <<<"${version}" || return 1
+}
+
+function test.quicklisp_works_ok {
+  docker run --rm ${image} --eval '(ql:quickload :alexandria)' --eval '(exit)'
+  [[ $? -eq 0 ]] || return 1
+}
+
+test.sbcl_is_installed
+test.quicklisp_works_ok
