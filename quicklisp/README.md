@@ -54,7 +54,7 @@ Hello, world
 ### ✔ Scripting
 
 ```
-#!/usr/bin/env -S docker run --rm --volume .:/project bdockerimg/quicklisp:sbcl-2.4.2--opensuse-tumbleweed --script
+#!/usr/bin/env -S docker run --rm --volume .:/project bdockerimg/quicklisp --script
 
 (format t "Hello, world")
 ```
