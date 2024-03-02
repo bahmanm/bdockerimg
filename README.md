@@ -27,6 +27,6 @@ Simply [create an issue](https://github.com/bahmanm/bdockerimg/issues/new) reque
 I got tired of copy-paste'ing the same setup commands over and over, particulary in CI/CD pipelines. 
 Additionally, I'm sure there are others who keep copy-paste'ing the same snippets.
 
-Bedies, it's quite fun!
+Besides, it's quite fun!
 
   
