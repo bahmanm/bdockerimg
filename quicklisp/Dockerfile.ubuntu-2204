@@ -11,4 +11,4 @@ RUN wget -O /tmp/quicklisp.lisp https://beta.quicklisp.org/quicklisp.lisp \
 
 VOLUME /project
 WORKDIR /project
-ENTRYPOINT sbcl
+ENTRYPOINT ["/usr/bin/sbcl"]
