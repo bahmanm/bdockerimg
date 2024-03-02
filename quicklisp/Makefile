@@ -70,9 +70,6 @@ quicklisp.publish : quicklisp.test
 quicklisp.publish : bmakelib.default-if-blank( quicklisp.tag,latest )
 quicklisp.publish : $(quicklisp.image-variants:%=quicklisp.publish.image-variant.%)
 
-$(foreach img,$(quicklisp.image-variants),\
-	$(eval $(call quicklisp.publish.image-variant__generate,$(img))))
-
 ####################################################################################################
 
 # 1: image-variant
@@ -90,3 +87,6 @@ quicklisp.publish.image-variant.$(1) :
 endef
 
 ####################################################################################################
+
+$(foreach img,$(quicklisp.image-variants),\
+	$(eval $(call quicklisp.publish.image-variant__generate,$(img))))
