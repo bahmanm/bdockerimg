@@ -76,7 +76,7 @@ jobs:
 ####################################################################################################
 
 workflows:
-  test:
+  test_publish:
     jobs:
       - build
       - test:
@@ -85,3 +85,6 @@ workflows:
       - publish:
           requires:
             - test
+          filters:
+            branches:
+              only: /main/
