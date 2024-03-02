@@ -13,7 +13,7 @@ There are two main variants of the image for slightely different usecases:
 
 # How to use
 
-### ✓ One-off commands
+### ✔ One-off commands
 
 For example, using the openSUSE Tumbleweed variant:
 
@@ -30,7 +30,7 @@ distribution for more information.
 Hello, world
 ```
 
-### ✓ Lisp projects
+### ✔ Lisp projects
 
 Assuming you've saved the overly elborate below snippet at `~/lisp/foo.lisp`:
 
@@ -58,7 +58,7 @@ distribution for more information.
 Hello, world
 ```
 
-### ✓ Scripting
+### ✔ Scripting
 
 ```text
 #!/usr/bin/env -S docker run --rm --volume .:/project bdockerimg/quicklisp:sbcl-2.4.2--opensuse-tumbleweed --script
@@ -66,7 +66,7 @@ Hello, world
 (format t "Hello, world")
 ```
 
-### ✓ CI/CD pipeline
+### ✔ CI/CD pipeline
 
 Here's a real world example of the image being used in the
 [euler-cl](https://github.com/bahmanm/euler-cl) project (CircleCI):
