@@ -10,8 +10,13 @@ quicklisp.image-variants := opensuse-tumbleweed ubuntu-2204
 
 .PHONY : quicklisp.test
 
-quicklisp.test :
-	@echo $(@): No tests to run.
+quicklisp.test : quicklisp.build
+quicklisp.test : $(quicklisp.image-variants:%=quicklisp.test.image-variant.%)
+
+####################################################################################################
+
+quicklisp.test.image-variant.% :
+	$(quicklisp.root.dir)test-suite $(quicklisp.repository):$(quicklisp.tag)-$(*)
 
 ####################################################################################################
 
@@ -38,6 +43,7 @@ quicklisp.build.image-variant.% :
 
 .PHONY : quicklisp.publish
 
+quicklisp.publish : quicklisp.test
 quicklisp.publish : bmakelib.default-if-blank( quicklisp.tag,latest )
 quicklisp.publish : $(quicklisp.image-variants:%=quicklisp.publish.image-variant.%)
 
