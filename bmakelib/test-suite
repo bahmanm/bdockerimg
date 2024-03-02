@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# -*- mode: sh-mode; -*-
+
+set -o pipefail
+set -o nounset
+
+TMPDIR=/tmp
+image="$1"
+
+function test.bmakelib_is_installed {
+  docker run --rm --entrypoint find ${image} \
+         /usr/local/include/bmakelib -type f -name '*.mk' -print
+  [[ $? -eq 0 ]] || return 1
+}
+
+function test.bmakelib_works_ok {
+  local tmpf=$(mktemp)
+  local filename=$(basename ${tmpf})
+  cat > ${tmpf} <<EOF
+.PHONY : bmakelib/bmakelib.mk
+include  bmakelib/bmakelib.mk
+
+.PHONY : print-version
+print-version :
+	@echo \$(bmakelib.VERSION)
+EOF
+  docker run --rm --volume ${TMPDIR}:/project ${image} \
+         -f ${filename} print-version
+  [[ $? -eq 0 ]] || return 1
+}
+
+test.bmakelib_is_installed \
+  && test.bmakelib_works_ok

@@ -16,5 +16,5 @@ function test.quicklisp_works_ok {
   [[ $? -eq 0 ]] || return 1
 }
 
-test.sbcl_is_installed
-test.quicklisp_works_ok
+test.sbcl_is_installed \
+  && test.quicklisp_works_ok
