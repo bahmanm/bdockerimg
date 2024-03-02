@@ -68,9 +68,7 @@ Hello, world
 
 ### ✔ CI/CD pipeline
 
-Here's a real world example of the image being used in the
-[euler-cl](https://github.com/bahmanm/euler-cl) project (CircleCI):
-https://github.com/bahmanm/euler-cl/blob/8d027c83423e09c7e4d90bca815e7ed5da86775f/.circleci/config.yml#L10
+Here's a real world example of the image being used: [euler-cl CircleCI configuration](https://github.com/bahmanm/euler-cl/blob/8d027c83423e09c7e4d90bca815e7ed5da86775f/.circleci/config.yml#L10)
 
 ---
 
