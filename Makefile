@@ -24,19 +24,15 @@ include  $(subprojects.makefiles)
 .PHONY : test
 
 test : $(subprojects:%=%.test)
-	@echo Dummy test target
 
 ####################################################################################################
 
 .PHONY : build
 
 build : $(subprojects:%=%.build)
-	@echo Dummy build target
-
 
 ####################################################################################################
 
 .PHONY : publish
 
 publish : $(subprojects:%=%.publish)
-	@echo Dummy publish target
