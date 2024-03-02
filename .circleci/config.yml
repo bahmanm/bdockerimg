@@ -8,6 +8,7 @@ executors:
     resource_class: medium
     machine:
       image: ubuntu-2204:current
+      docker_layer_caching: true
 
 ####################################################################################################
 
@@ -70,7 +71,7 @@ jobs:
       - run:
           name: Publish the images to Docker Hub
           command: >-
-            echo ${DOCKERHUB_TOKEN} | docker loging --username ${DOCKERHUB_USER} --password-stdin
+            echo ${DOCKERHUB_TOKEN} | docker login --username ${DOCKERHUB_USER} --password-stdin
             && make publish
 
 ####################################################################################################
