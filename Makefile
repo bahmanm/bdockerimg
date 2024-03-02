@@ -4,6 +4,7 @@ SHELL := /usr/bin/env bash
 ####################################################################################################
 
 root.dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+root.repository := bdockerimg
 
 ####################################################################################################
 
@@ -12,7 +13,7 @@ include  bmakelib/bmakelib.mk
 
 ####################################################################################################
 
-subprojects :=
+subprojects := dummy
 subprojects.makefiles := $(subprojects:%=$(root.dir)%/Makefile)
 
 .PHONY : $(subprojects.makefiles)
