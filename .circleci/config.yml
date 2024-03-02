@@ -78,6 +78,10 @@ jobs:
 workflows:
   test:
     jobs:
-      - test
       - build
-      - publish
+      - test:
+          requires:
+            - build
+      - publish:
+          requires:
+            - test
