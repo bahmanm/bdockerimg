@@ -23,22 +23,6 @@ endef
 
 ####################################################################################################
 
-# 1: image-variant
-define quicklisp.publish.image-variant__generate
-quicklisp.$(1).local-tag = $$(call quicklisp.image-variant.local-tag,$(1))
-quicklisp.$(1).sbcl-version = $$(call quicklisp.image-variant.sbcl-version,$$(quicklisp.$(1).local-tag))
-quicklisp.$(1).remote-tag = $$(call quicklisp.image-variant.remote-tag,$(1),$$(quicklisp.$(1).sbcl-version))
-
-
-.PHONY : quicklisp.publish.image-variant.$(1)
-
-quicklisp.publish.image-variant.$(1) :
-	docker tag $$(quicklisp.$(1).local-tag) $$(quicklisp.$(1).remote-tag) \
-	&& docker push $$(quicklisp.$(1).remote-tag)
-endef
-
-####################################################################################################
-
 # 1: local-tag
 define quicklisp.image-variant.sbcl-version
 $(call bmakelib.shell.error-if-nonzero,\
@@ -88,5 +72,21 @@ quicklisp.publish : $(quicklisp.image-variants:%=quicklisp.publish.image-variant
 
 $(foreach img,$(quicklisp.image-variants),\
 	$(eval $(call quicklisp.publish.image-variant__generate,$(img))))
+
+####################################################################################################
+
+# 1: image-variant
+define quicklisp.publish.image-variant__generate
+quicklisp.$(1).local-tag = $$(call quicklisp.image-variant.local-tag,$(1))
+quicklisp.$(1).sbcl-version = $$(call quicklisp.image-variant.sbcl-version,$$(quicklisp.$(1).local-tag))
+quicklisp.$(1).remote-tag = $$(call quicklisp.image-variant.remote-tag,$(1),$$(quicklisp.$(1).sbcl-version))
+
+
+.PHONY : quicklisp.publish.image-variant.$(1)
+
+quicklisp.publish.image-variant.$(1) :
+	docker tag $$(quicklisp.$(1).local-tag) $$(quicklisp.$(1).remote-tag) \
+	&& docker push $$(quicklisp.$(1).remote-tag)
+endef
 
 ####################################################################################################
