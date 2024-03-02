@@ -5,6 +5,7 @@ quicklisp.root.dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 quicklisp.image-name := quicklisp
 quicklisp.repository := $(root.repository)/$(quicklisp.image-name)
 quicklisp.image-variants := opensuse-tumbleweed ubuntu-2204
+quicklisp.image-variants.default := ubuntu-2204
 
 ####################################################################################################
 
@@ -33,7 +34,6 @@ endef
 
 .PHONY : quicklisp.test
 
-quicklisp.test : quicklisp.build
 quicklisp.test : $(quicklisp.image-variants:%=quicklisp.test.image-variant.%)
 
 ####################################################################################################
@@ -66,7 +66,6 @@ quicklisp.build.image-variant.% :
 
 .PHONY : quicklisp.publish
 
-quicklisp.publish : quicklisp.test
 quicklisp.publish : bmakelib.default-if-blank( quicklisp.tag,latest )
 quicklisp.publish : $(quicklisp.image-variants:%=quicklisp.publish.image-variant.%)
 
@@ -78,11 +77,12 @@ quicklisp.$(1).local-tag = $$(call quicklisp.image-variant.local-tag,$(1))
 quicklisp.$(1).sbcl-version = $$(call quicklisp.image-variant.sbcl-version,$$(quicklisp.$(1).local-tag))
 quicklisp.$(1).remote-tag = $$(call quicklisp.image-variant.remote-tag,$(1),$$(quicklisp.$(1).sbcl-version))
 
-
 .PHONY : quicklisp.publish.image-variant.$(1)
-
 quicklisp.publish.image-variant.$(1) :
 	docker tag $$(quicklisp.$(1).local-tag) $$(quicklisp.$(1).remote-tag) \
+	$$(if $(filter-out $(1),$(quicklisp.image-variants.default)),,\
+		&& docker tag $$(quicklisp.$(1).local-tag) $(quicklisp.repository):latest \
+		&& docker push $(quicklisp.repository):latest) \
 	&& docker push $$(quicklisp.$(1).remote-tag)
 endef
 
