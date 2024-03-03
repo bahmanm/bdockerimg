@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+# -*- mode: sh-mode; -*-
+
+set -o pipefail
+set -o nounset
+
+image="$1"
+
+function test.sdkman_is_installed {
+  local version=$(docker run --rm ${image} sdk version 2>&1)
+  [[ $? -eq 0 ]] || return 1
+  perl -E"die unless '${version}' =~ /SDKMAN.+\nscript:.+\nnative:.*/s" || return 1
+}
+
+function test.sdkman_works_ok {
+  local java_version=$(docker run --rm ${image} 'sdk install java > /dev/null 2>&1 && java -version 2>&1')
+  [[ $? -eq 0 ]] || return 1
+  perl -E"die unless '${java_version}' =~ /openjdk version \"[\d\.\-]+\"/s" || return 1
+}
+
+test.sdkman_is_installed \
+  && test.sdkman_works_ok

@@ -13,7 +13,7 @@ include  bmakelib/bmakelib.mk
 
 ####################################################################################################
 
-subprojects := quicklisp bmakelib
+subprojects := quicklisp bmakelib sdkman
 subprojects.makefiles := $(subprojects:%=$(root.dir)%/Makefile)
 
 .PHONY : $(subprojects.makefiles)

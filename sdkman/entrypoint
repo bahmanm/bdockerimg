@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# -*- mode: sh; -*-
+
+bash -lc "source /root/.sdkman/bin/sdkman-init.sh && $*"
