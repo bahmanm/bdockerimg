@@ -6,9 +6,11 @@ A collection of Docker images which are otherwise not easy to find.
 
 Here's the list of all images (in alaphabetical order:)
 
-⭐ [bmakelib](bmakelib/README.md):  bmakelib and GNU Make 4.4.x
+### ⭐ [bmakelib](bmakelib/README.md)
+bmakelib and GNU Make 4.4.x
 
-⭐ [QuickLisp](quicklisp/README.md):  Vanilla QuickLisp using SBCL
+### ⭐ [QuickLisp](quicklisp/README.md)
+Vanilla QuickLisp using SBCL
 
 # On Quality
 
