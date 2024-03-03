@@ -1,0 +1,12 @@
+FROM opensuse/tumbleweed:latest
+
+RUN zypper --non-interactive refresh \
+    && zypper --non-interactive install zip unzip wget curl
+
+RUN wget --quiet -O - https://get.sdkman.io | bash
+
+COPY --chmod=777 entrypoint /entrypoint
+
+VOLUME /project
+WORKDIR /project
+ENTRYPOINT ["/entrypoint"]
