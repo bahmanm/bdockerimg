@@ -4,8 +4,6 @@ quicklisp.root.dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 quicklisp.image-name := quicklisp
 quicklisp.repository := $(root.repository)/$(quicklisp.image-name)
-quicklisp.image-variants := opensuse-tumbleweed ubuntu-2204
-quicklisp.image-variants.default := ubuntu-2204
 
 ####################################################################################################
 
@@ -34,7 +32,7 @@ endef
 
 .PHONY : quicklisp.test
 
-quicklisp.test : $(quicklisp.image-variants:%=quicklisp.test.image-variant.%)
+quicklisp.test : $(root.image-variants:%=quicklisp.test.image-variant.%)
 
 ####################################################################################################
 
@@ -45,7 +43,7 @@ quicklisp.test.image-variant.% :
 
 .PHONY : quicklisp.build
 
-quicklisp.build : $(quicklisp.image-variants:%=quicklisp.build.image-variant.%)
+quicklisp.build : $(root.image-variants:%=quicklisp.build.image-variant.%)
 
 ####################################################################################################
 
@@ -67,7 +65,7 @@ quicklisp.build.image-variant.% :
 .PHONY : quicklisp.publish
 
 quicklisp.publish : bmakelib.default-if-blank( quicklisp.tag,latest )
-quicklisp.publish : $(quicklisp.image-variants:%=quicklisp.publish.image-variant.%)
+quicklisp.publish : $(root.image-variants:%=quicklisp.publish.image-variant.%)
 
 ####################################################################################################
 
@@ -80,7 +78,7 @@ quicklisp.$(1).remote-tag = $$(call quicklisp.image-variant.remote-tag,$(1),$$(q
 .PHONY : quicklisp.publish.image-variant.$(1)
 quicklisp.publish.image-variant.$(1) :
 	docker tag $$(quicklisp.$(1).local-tag) $$(quicklisp.$(1).remote-tag) \
-	$$(if $(filter-out $(1),$(quicklisp.image-variants.default)),,\
+	$$(if $(filter-out $(1),$(root.image-variants.default)),,\
 		&& docker tag $$(quicklisp.$(1).local-tag) $(quicklisp.repository):latest \
 		&& docker push $(quicklisp.repository):latest) \
 	&& docker push $$(quicklisp.$(1).remote-tag)
@@ -88,5 +86,5 @@ endef
 
 ####################################################################################################
 
-$(foreach img,$(quicklisp.image-variants),\
+$(foreach img,$(root.image-variants),\
 	$(eval $(call quicklisp.publish.image-variant__generate,$(img))))

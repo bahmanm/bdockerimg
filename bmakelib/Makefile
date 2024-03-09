@@ -4,8 +4,6 @@ bmakelib.root.dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 bmakelib.image-name := bmakelib
 bmakelib.repository := $(root.repository)/$(bmakelib.image-name)
-bmakelib.image-variants := ubuntu-2204 opensuse-tumbleweed
-bmakelib.image-variants.default := ubuntu-2204
 bmakelib.version := 0.7.0
 bmakelib.tarball := https://github.com/bahmanm/bmakelib/releases/download/v$(bmakelib.version)/bmakelib-$(bmakelib.version).tar.gz
 
@@ -27,7 +25,7 @@ endef
 
 .PHONY : bmakelib.test
 
-bmakelib.test : $(bmakelib.image-variants:%=bmakelib.test.image-variant.%)
+bmakelib.test : $(root.image-variants:%=bmakelib.test.image-variant.%)
 
 ####################################################################################################
 
@@ -38,7 +36,7 @@ bmakelib.test.image-variant.% :
 
 .PHONY : bmakelib.build
 
-bmakelib.build : $(bmakelib.image-variants:%=bmakelib.build.image-variant.%)
+bmakelib.build : $(root.image-variants:%=bmakelib.build.image-variant.%)
 
 ####################################################################################################
 
@@ -60,7 +58,7 @@ bmakelib.build.image-variant.% :
 .PHONY : bmakelib.publish
 
 bmakelib.publish : bmakelib.default-if-blank( bmakelib.tag,latest )
-bmakelib.publish : $(bmakelib.image-variants:%=bmakelib.publish.image-variant.%)
+bmakelib.publish : $(root.image-variants:%=bmakelib.publish.image-variant.%)
 
 ####################################################################################################
 
@@ -72,7 +70,7 @@ bmakelib.$(1).remote-tag = $$(call bmakelib.image-variant.remote-tag,$(1))
 .PHONY : bmakelib.publish.image-variant.$(1)
 bmakelib.publish.image-variant.$(1) :
 	docker tag $$(bmakelib.$(1).local-tag) $$(bmakelib.$(1).remote-tag) \
-	$$(if $(filter-out $(1),$(bmakelib.image-variants.default)),,\
+	$$(if $(filter-out $(1),$(root.image-variants.default)),,\
 		&& docker tag $$(bmakelib.$(1).local-tag) $(bmakelib.repository):latest \
 		&& docker push $(bmakelib.repository):latest) \
 	&& docker push $$(bmakelib.$(1).remote-tag)
@@ -80,5 +78,5 @@ endef
 
 ####################################################################################################
 
-$(foreach img,$(bmakelib.image-variants),\
+$(foreach img,$(root.image-variants),\
 	$(eval $(call bmakelib.publish.image-variant__generate,$(img))))

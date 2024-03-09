@@ -5,6 +5,8 @@ SHELL := /usr/bin/env bash
 
 root.dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 root.repository := bdockerimg
+root.image-variants := ubuntu-2204 opensuse-tumbleweed
+root.image-variants.default := ubuntu-2204
 
 ####################################################################################################
 
