@@ -4,8 +4,6 @@ sdkman.root.dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 sdkman.image-name := sdkman
 sdkman.repository := $(root.repository)/$(sdkman.image-name)
-sdkman.image-variants := ubuntu-2204 opensuse-tumbleweed
-sdkman.image-variants.default := ubuntu-2204
 
 ####################################################################################################
 
@@ -25,7 +23,7 @@ endef
 
 .PHONY : sdkman.test
 
-sdkman.test : $(sdkman.image-variants:%=sdkman.test.image-variant.%)
+sdkman.test : $(root.image-variants:%=sdkman.test.image-variant.%)
 
 ####################################################################################################
 
@@ -36,7 +34,7 @@ sdkman.test.image-variant.% :
 
 .PHONY : sdkman.build
 
-sdkman.build : $(sdkman.image-variants:%=sdkman.build.image-variant.%)
+sdkman.build : $(root.image-variants:%=sdkman.build.image-variant.%)
 
 ####################################################################################################
 
@@ -58,7 +56,7 @@ sdkman.build.image-variant.% :
 .PHONY : sdkman.publish
 
 sdkman.publish : bmakelib.default-if-blank( sdkman.tag,latest )
-sdkman.publish : $(sdkman.image-variants:%=sdkman.publish.image-variant.%)
+sdkman.publish : $(root.image-variants:%=sdkman.publish.image-variant.%)
 
 ####################################################################################################
 
@@ -70,7 +68,7 @@ sdkman.$(1).remote-tag = $$(call sdkman.image-variant.remote-tag,$(1))
 .PHONY : sdkman.publish.image-variant.$(1)
 sdkman.publish.image-variant.$(1) :
 	docker tag $$(sdkman.$(1).local-tag) $$(sdkman.$(1).remote-tag) \
-	$$(if $(filter-out $(1),$(sdkman.image-variants.default)),,\
+	$$(if $(filter-out $(1),$(root.image-variants.default)),,\
 		&& docker tag $$(sdkman.$(1).local-tag) $(sdkman.repository):latest \
 		&& docker push $(sdkman.repository):latest) \
 	&& docker push $$(sdkman.$(1).remote-tag)
@@ -78,5 +76,5 @@ endef
 
 ####################################################################################################
 
-$(foreach img,$(sdkman.image-variants),\
+$(foreach img,$(root.image-variants),\
 	$(eval $(call sdkman.publish.image-variant__generate,$(img))))
