@@ -8,10 +8,10 @@ use feature ':5.34';
 
 ####################################################################################################
 
-our $DIR        = $ARGV[0];
-our $VARIANT    = $ARGV[1];
-our @DEPS       = @ARGV[ 2 .. $#ARGV ];
-our $REPO       = 'bdockerimg/';
+our $DIR     = $ARGV[0];
+our $VARIANT = $ARGV[1];
+our @DEPS    = @ARGV[ 2 .. $#ARGV ];
+our $REPO    = 'bdockerimg/';
 
 our $FUSION_TAG = "";
 our @DEPTAGS    = ();
@@ -23,10 +23,10 @@ sub find_deptag {
     my $all_tags = qx/docker image ls --format='{{.Tag}}' ${REPO}${dep}/;
     foreach my $tag ( split( /\n/, $all_tags ) ) {
         if ( $tag =~ /(.+)--${VARIANT}/ ) {
-            return { dep => $dep, tag => "$dep-$1" };
+            return { dep => $dep, tag => $1 };
         }
     }
-    return { dep => $dep, tag => $dep };
+    return { dep => $dep, tag => "" };
 }
 
 ####################################################################################################
@@ -42,7 +42,8 @@ sub find_deptags {
 
 sub generate_fusion_tag {
     foreach my $deptag (@DEPTAGS) {
-        $FUSION_TAG .= ( $deptag->{tag} . "--" );
+        my $tag = deptag_to_string($deptag);
+        $FUSION_TAG .= ( $tag . "--" );
     }
     $FUSION_TAG .= $VARIANT;
 }
@@ -52,14 +53,24 @@ sub generate_fusion_tag {
 sub generate_dockerfile {
     open( my $dockerfile, ">${DIR}Dockerfile.${FUSION_TAG}" );
     foreach my $deptag (@DEPTAGS) {
-        my $tag = $deptag->{tag};
-        say $dockerfile "FROM ${REPO}${tag}";
+        my $dep = $deptag->{dep};
+        my $tag = $deptag->{tag} ? "$deptag->{tag}--${VARIANT}" : $VARIANT;
+        say $dockerfile "FROM ${REPO}${dep}:${tag}";
     }
 
     for my $stage ( 0 .. $#DEPTAGS - 1 ) {
         say $dockerfile "COPY --from=${stage} / /";
     }
     close($dockerfile);
+}
+
+####################################################################################################
+
+sub deptag_to_string {
+    my $deptag = shift;
+    my $dep    = $deptag->{dep};
+    my $tag    = $deptag->{tag} ? "${dep}-$deptag->{tag}" : $dep;
+    return $tag;
 }
 
 ####################################################################################################
