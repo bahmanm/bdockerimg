@@ -81,7 +81,7 @@ jobs:
       - ubuntu_setup
       - checkout
       - run:
-          name: Build the images
+          name: Build and publish the fusions
           command: >-
             make fusion.all.build fusion.all.publish
 
