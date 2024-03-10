@@ -67,5 +67,4 @@ sub generate_dockerfile {
 find_deptags;
 generate_fusion_tag;
 generate_dockerfile;
-say STDERR $FUSION_TAG;
 say $FUSION_TAG;
