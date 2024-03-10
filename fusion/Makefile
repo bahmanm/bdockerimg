@@ -44,23 +44,23 @@ define fusion.variant.build-and-publish__generate
 
 ####################
 
-fusion.$(1).tag := $(call bmakelib.shell.error-if-nonzero,$(fusion.root.dir)fusion.Dockerfile.generate.pl $(2) $(3))
+fusion.$(1).$(2).tag := $(call bmakelib.shell.error-if-nonzero,$(fusion.root.dir)fusion.Dockerfile.generate.pl $(fusion.root.dir) $(2) $(3))
 
 ####################
 
 .PHONY : fusion.$(1).variant.$(2).build
 
-fusion.$(1).variant.$(2).build : bmakelib.error-if-blank( fusion.$(1).tag )
+fusion.$(1).variant.$(2).build : bmakelib.error-if-blank( fusion.$(1).$(2).tag )
 fusion.$(1).variant.$(2).build :
-	@echo docker build --tag $(fusion.$(1).tag) --file Dockerfile.$(fusion.$(1).tag) $(fusion.root.dir)
+	@echo docker build --tag $$(fusion.$(1).$(2).tag) --file Dockerfile.$$(fusion.$(1).$(2).tag) $(fusion.root.dir)
 
 ####################
 
 .PHONY : fusion.$(1).variant.$(2).publish
 
-fusion.$(1).variant.$(2).publish : bmakelib.error-if-blank( fusion.$(1).tag )
+fusion.$(1).variant.$(2).publish : bmakelib.error-if-blank( fusion.$(1).$(2).tag )
 fusion.$(1).variant.$(2).publish :
-	@echo docker push --tag $(fusion.$(1).tag)
+	@echo docker push --tag $$(fusion.$(1).$(2).tag)
 
 endef
 
