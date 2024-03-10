@@ -2,7 +2,7 @@ fusion.root.dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 ####################################################################################################
 
-fusion.definitions := sdkman--bmakelib quicklisp--bmakelib
+fusion.definitions := sdkman.bmakelib quicklisp.bmakelib
 
 ####################################################################################################
 
@@ -69,6 +69,6 @@ endef
 
 $(foreach fusion,$(fusion.definitions),\
 	$(eval $(call fusion.build-and-publish__generate,$(fusion)))\
-	$(let deps,$(subst --, ,$(fusion)),\
+	$(let deps,$(subst ., ,$(fusion)),\
 		$(foreach variant,$(root.image-variants),\
 			$(eval $(call fusion.variant.build-and-publish__generate,$(fusion),$(variant),$(deps))))))
