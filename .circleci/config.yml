@@ -83,7 +83,8 @@ jobs:
       - run:
           name: Build and publish the fusions
           command: >-
-            make fusion.all.build fusion.all.publish
+            echo ${DOCKERHUB_TOKEN} | docker login --username ${DOCKERHUB_USER} --password-stdin
+            && make fusion.all.build fusion.all.publish
 
 ####################################################################################################
 
