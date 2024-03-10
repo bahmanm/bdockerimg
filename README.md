@@ -3,18 +3,33 @@
 A collection of Docker images which are otherwise not easy to find.  
 <img alt="bdockerimage logo" src="https://imgur.com/grb1Dqg.png" style="height: 300px; width: 300px; vertical-align: top" /> 
 
-# Images
+# 🖼️ Images
 
 Here's the list of all images (in alaphabetical order:)
 
-### ⭐ [bmakelib](bmakelib/README.md)
+### 🖼️ [bmakelib](bmakelib/README.md)
 _bmakelib and GNU Make 4.4.x_
 
-### ⭐ [QuickLisp](quicklisp/README.md)
+### 🖼️ [QuickLisp](quicklisp/README.md)
 _Vanilla QuickLisp using SBCL_
 
-### ⭐ [SDKMAN](sdkman/README.md)
+### 🖼️ [SDKMAN](sdkman/README.md)
 _Vanilla SDKMAN_
+
+# ⚛️ Fusions
+
+_Read about [fusions](fusion/README.md) and why they are useful._
+
+Here's the list of all fusions available:
+
+### ⚛️ [QuickLisp . bmakelib](https://hub.docker.com/r/bdockerimg/quicklisp.bmakelib)
+
+_[QuickLisp](quicklisp/README.md) and [bmakelib](bmakelib/README.md)_
+
+### ⚛️ [sdkman . bmakelib](https://hub.docker.com/r/bdockerimg/sdkman.bmakelib)
+
+_[SDKMAN](sdkman/README.md) and [bmakelib](bmakelib/README.md)_
+
 
 # On Quality
 
