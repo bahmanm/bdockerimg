@@ -7,13 +7,13 @@ A collection of Docker images which are otherwise not easy to find.
 
 Here's the list of all images (in alaphabetical order:)
 
-### 🖼️ [bmakelib](bmakelib/README.md)
+### 🖼️ [bmakelib](bmakelib/README.md) ![Docker Pulls](https://img.shields.io/docker/pulls/bdockerimg/bmakelib?style=social&logo=docker)
 _bmakelib and GNU Make 4.4.x_
 
-### 🖼️ [QuickLisp](quicklisp/README.md)
+### 🖼️ [QuickLisp](quicklisp/README.md) ![Docker Pulls](https://img.shields.io/docker/pulls/bdockerimg/quicklisp?style=social&logo=docker)
 _Vanilla QuickLisp using SBCL_
 
-### 🖼️ [SDKMAN](sdkman/README.md)
+### 🖼️ [SDKMAN](sdkman/README.md) ![Docker Pulls](https://img.shields.io/docker/pulls/bdockerimg/sdkman?style=social&logo=docker)
 _Vanilla SDKMAN_
 
 # ⚛️ Fusions
@@ -22,12 +22,10 @@ _Read about [fusions](fusion/README.md) and why they are useful._
 
 Here's the list of all fusions available:
 
-### ⚛️ [QuickLisp . bmakelib](https://hub.docker.com/r/bdockerimg/quicklisp.bmakelib)
-
+### ⚛️ [QuickLisp . bmakelib](https://hub.docker.com/r/bdockerimg/quicklisp.bmakelib) ![Docker Pulls](https://img.shields.io/docker/pulls/bdockerimg/quicklisp.bmakelib?style=social&logo=docker)
 _[QuickLisp](quicklisp/README.md) and [bmakelib](bmakelib/README.md)_
 
-### ⚛️ [sdkman . bmakelib](https://hub.docker.com/r/bdockerimg/sdkman.bmakelib)
-
+### ⚛️ [sdkman . bmakelib](https://hub.docker.com/r/bdockerimg/sdkman.bmakelib) ![Docker Pulls](https://img.shields.io/docker/pulls/bdockerimg/sdkman.bmakelib?style=social&logo=docker)
 _[SDKMAN](sdkman/README.md) and [bmakelib](bmakelib/README.md)_
 
 

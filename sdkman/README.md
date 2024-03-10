@@ -1,6 +1,6 @@
-# SDKMAN
+# 🖼️ SDKMAN ![Docker Pulls](https://img.shields.io/docker/pulls/bdockerimg/sdkman?style=social&logo=docker)
 
-A slim image of SDKMAN.
+A slim image of SDKMAN!.
 
 👉 [View on Docker Hub](https://hub.docker.com/r/bdockerimg/sdkman)
 
