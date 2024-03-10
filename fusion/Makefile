@@ -44,7 +44,8 @@ define fusion.variant.build-and-publish__generate
 
 ####################
 
-fusion.$(1).$(2).tag := $(call bmakelib.shell.error-if-nonzero,$(fusion.root.dir)fusion.Dockerfile.generate.pl $(fusion.root.dir) $(2) $(3))
+fusion.$(1).$(2).tag := $(call bmakelib.shell.error-if-nonzero,\
+				$(fusion.root.dir)fusion.Dockerfile.generate.pl $(fusion.root.dir) $(2) $(3))
 
 ####################
 
@@ -52,7 +53,8 @@ fusion.$(1).$(2).tag := $(call bmakelib.shell.error-if-nonzero,$(fusion.root.dir
 
 fusion.$(1).variant.$(2).build : bmakelib.error-if-blank( fusion.$(1).$(2).tag )
 fusion.$(1).variant.$(2).build :
-	docker build --tag $(root.repository)/$(1):$$(fusion.$(1).$(2).tag) --file $(fusion.root.dir)Dockerfile.$$(fusion.$(1).$(2).tag) $(fusion.root.dir)
+	docker build --tag $(root.repository)/$(1):$$(fusion.$(1).$(2).tag) \
+		--file $(fusion.root.dir)Dockerfile.$$(fusion.$(1).$(2).tag) $(fusion.root.dir)
 
 ####################
 
@@ -61,6 +63,14 @@ fusion.$(1).variant.$(2).build :
 fusion.$(1).variant.$(2).publish : bmakelib.error-if-blank( fusion.$(1).$(2).tag )
 fusion.$(1).variant.$(2).publish :
 	docker push $(root.repository)/$(1):$$(fusion.$(1).$(2).tag) \
+	$(if $(filter-out $(2),$(root.image-variants.default)),,\
+		&& docker tag \
+			$(root.repository)/$(1):$$(fusion.$(1).$(2).tag) \
+			$(root.repository)/$(1):latest \
+		&& docker push $(root.repository)/$(1):latest) \
+	&& docker tag \
+		$(root.repository)/$(1):$$(fusion.$(1).$(2).tag) \
+		$(root.repository)/$(1):$(2) \
 	&& docker push $(root.repository)/$(1):$(2)
 
 endef
