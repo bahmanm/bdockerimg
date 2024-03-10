@@ -71,7 +71,8 @@ sdkman.publish.image-variant.$(1) :
 	$$(if $(filter-out $(1),$(root.image-variants.default)),,\
 		&& docker tag $$(sdkman.$(1).local-tag) $(sdkman.repository):latest \
 		&& docker push $(sdkman.repository):latest) \
-	&& docker push $$(sdkman.$(1).remote-tag)
+	&& docker push $$(sdkman.$(1).remote-tag) \
+	&& docker image rm --force $$(sdkman.$(1).local-tag)
 endef
 
 ####################################################################################################

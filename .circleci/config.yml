@@ -74,6 +74,17 @@ jobs:
             echo ${DOCKERHUB_TOKEN} | docker login --username ${DOCKERHUB_USER} --password-stdin
             && make publish
 
+  publish_fusions:
+    executor: ubuntu2204
+    working_directory: ~/bdockerimg
+    steps:
+      - ubuntu_setup
+      - checkout
+      - run:
+          name: Build the images
+          command: >-
+            make fusion.all.build fusion.all.publish
+
 ####################################################################################################
 
 workflows:
@@ -114,6 +125,14 @@ workflows:
               only:
                 - main
 
+      - publish_fusions:
+          requires:
+            - publish
+          filters:
+            branches:
+              only:
+                - main
+
   weekly:
     jobs:
       - build
@@ -123,6 +142,9 @@ workflows:
       - publish:
           requires:
             - test
+      - publish_fusions:
+          requires:
+            - publish
     triggers:
       - schedule:
           cron: "0 18 * * 1"
