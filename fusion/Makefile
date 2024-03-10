@@ -2,7 +2,7 @@ fusion.root.dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 ####################################################################################################
 
-fusion.definitions := sdkman__bmakelib quicklisp__bmakelib
+fusion.definitions := sdkman--bmakelib quicklisp--bmakelib
 
 ####################################################################################################
 
@@ -52,7 +52,7 @@ fusion.$(1).$(2).tag := $(call bmakelib.shell.error-if-nonzero,$(fusion.root.dir
 
 fusion.$(1).variant.$(2).build : bmakelib.error-if-blank( fusion.$(1).$(2).tag )
 fusion.$(1).variant.$(2).build :
-	docker build --tag $(root.repository)/$$(fusion.$(1).$(2).tag) --file $(fusion.root.dir)Dockerfile.$$(fusion.$(1).$(2).tag) $(fusion.root.dir)
+	docker build --tag $(root.repository)/$(1):$$(fusion.$(1).$(2).tag) --file $(fusion.root.dir)Dockerfile.$$(fusion.$(1).$(2).tag) $(fusion.root.dir)
 
 ####################
 
@@ -60,7 +60,8 @@ fusion.$(1).variant.$(2).build :
 
 fusion.$(1).variant.$(2).publish : bmakelib.error-if-blank( fusion.$(1).$(2).tag )
 fusion.$(1).variant.$(2).publish :
-	docker push --tag $(root.repository)/$$(fusion.$(1).$(2).tag)
+	docker push $(root.repository)/$(1):$$(fusion.$(1).$(2).tag) \
+	&& docker push $(root.repository)/$(1):$(2)
 
 endef
 
@@ -68,6 +69,6 @@ endef
 
 $(foreach fusion,$(fusion.definitions),\
 	$(eval $(call fusion.build-and-publish__generate,$(fusion)))\
-	$(let deps,$(subst __, ,$(fusion)),\
+	$(let deps,$(subst --, ,$(fusion)),\
 		$(foreach variant,$(root.image-variants),\
 			$(eval $(call fusion.variant.build-and-publish__generate,$(fusion),$(variant),$(deps))))))
