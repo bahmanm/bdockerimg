@@ -81,7 +81,8 @@ quicklisp.publish.image-variant.$(1) :
 	$$(if $(filter-out $(1),$(root.image-variants.default)),,\
 		&& docker tag $$(quicklisp.$(1).local-tag) $(quicklisp.repository):latest \
 		&& docker push $(quicklisp.repository):latest) \
-	&& docker push $$(quicklisp.$(1).remote-tag)
+	&& docker push $$(quicklisp.$(1).remote-tag) \
+	&& docker image rm --force $$(quicklisp.$(1).local-tag)
 endef
 
 ####################################################################################################

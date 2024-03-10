@@ -73,7 +73,8 @@ bmakelib.publish.image-variant.$(1) :
 	$$(if $(filter-out $(1),$(root.image-variants.default)),,\
 		&& docker tag $$(bmakelib.$(1).local-tag) $(bmakelib.repository):latest \
 		&& docker push $(bmakelib.repository):latest) \
-	&& docker push $$(bmakelib.$(1).remote-tag)
+	&& docker push $$(bmakelib.$(1).remote-tag) \
+	&& docker image rm --force $$(bmakelib.$(1).local-tag)
 endef
 
 ####################################################################################################
