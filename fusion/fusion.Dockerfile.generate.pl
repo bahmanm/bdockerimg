@@ -6,23 +6,66 @@ use diagnostics;
 use utf8;
 use feature ':5.34';
 
-our $VARIANT = $ARGV[0];
-our @DEPS    = @ARGV[ 1 .. $#ARGV ];
-our $REPO    = 'bdockerimg/';
+####################################################################################################
 
-sub find_tag {
+our $DIR        = $ARGV[0];
+our $VARIANT    = $ARGV[1];
+our @DEPS       = @ARGV[ 2 .. $#ARGV ];
+our $REPO       = 'bdockerimg/';
+
+our $FUSION_TAG = "";
+our @DEPTAGS    = ();
+
+####################################################################################################
+
+sub find_deptag {
     my $dep      = shift;
     my $all_tags = qx/docker image ls --format='{{.Tag}}' ${REPO}${dep}/;
-
     foreach my $tag ( split( /\n/, $all_tags ) ) {
-        return "$dep-$1" if ( $tag =~ /(.+)--${VARIANT}/ );
+        if ( $tag =~ /(.+)--${VARIANT}/ ) {
+            return { dep => $dep, tag => "$dep-$1" };
+        }
     }
-    return $dep;
+    return { dep => $dep, tag => $dep };
 }
 
-our @tags = ();
-foreach my $dep (@DEPS) {
-    my $tag = find_tag($dep);
-    push( @tags, $tag );
+####################################################################################################
+
+sub find_deptags {
+    foreach my $dep (@DEPS) {
+        my $deptag = find_deptag($dep);
+        push( @DEPTAGS, $deptag );
+    }
 }
-say join( '--', @tags ) . '--' . $VARIANT;
+
+####################################################################################################
+
+sub generate_fusion_tag {
+    foreach my $deptag (@DEPTAGS) {
+        $FUSION_TAG .= ( $deptag->{tag} . "--" );
+    }
+    $FUSION_TAG .= $VARIANT;
+}
+
+####################################################################################################
+
+sub generate_dockerfile {
+    open( my $dockerfile, ">${DIR}Dockerfile.${FUSION_TAG}" );
+    foreach my $deptag (@DEPTAGS) {
+        my $tag = $deptag->{tag};
+        say $dockerfile "FROM ${REPO}${tag}";
+    }
+
+    for my $stage ( 0 .. $#DEPTAGS - 1 ) {
+        say $dockerfile "COPY --from=${stage} / /";
+    }
+    close($dockerfile);
+}
+
+####################################################################################################
+
+find_deptags;
+generate_fusion_tag;
+generate_dockerfile;
+say STDERR $FUSION_TAG;
+say $FUSION_TAG;
