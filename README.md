@@ -1,4 +1,6 @@
-# bdockerimg [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/UMKeFZ8ns9T9vi5aquTfVT/UnuEnZH2XpWqXouT1Vw6ud/tree/main.svg?style=shield&circle-token=8628d87e42f35713d28e416db33bd0980a4e7bd8)](https://dl.circleci.com/status-badge/redirect/circleci/UMKeFZ8ns9T9vi5aquTfVT/UnuEnZH2XpWqXouT1Vw6ud/tree/main) 
+# bdockerimg &nbsp;&nbsp; [![CircleCI](https://dl.circleci.com/status-badge/img/circleci/UMKeFZ8ns9T9vi5aquTfVT/UnuEnZH2XpWqXouT1Vw6ud/tree/main.svg?style=shield&circle-token=8628d87e42f35713d28e416db33bd0980a4e7bd8)](https://dl.circleci.com/status-badge/redirect/circleci/UMKeFZ8ns9T9vi5aquTfVT/UnuEnZH2XpWqXouT1Vw6ud/tree/main) 
+
+[![Matrix](https://img.shields.io/matrix/bdockerimg%3Amatrix.org?style=social&logo=matrix)](https://matrix.to/#/#bdockerimg:matrix.org) &nbsp;&nbsp;&nbsp; ![GitHub commit activity](https://img.shields.io/github/commit-activity/m/bahmanm/bdockerimg?style=social&logo=github) 
 
 A collection of Docker images which are otherwise not easy to find.  
 <img alt="bdockerimage logo" src="https://imgur.com/grb1Dqg.png" style="height: 300px; width: 300px; vertical-align: top" /> 
