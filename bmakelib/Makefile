@@ -4,7 +4,7 @@ bmakelib.root.dir := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 bmakelib.image-name := bmakelib
 bmakelib.repository := $(root.repository)/$(bmakelib.image-name)
-bmakelib.version := 0.7.0
+bmakelib.version := 0.8.0
 bmakelib.tarball := https://github.com/bahmanm/bmakelib/releases/download/v$(bmakelib.version)/bmakelib-$(bmakelib.version).tar.gz
 
 ####################################################################################################
